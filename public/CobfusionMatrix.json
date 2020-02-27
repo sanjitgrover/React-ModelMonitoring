@@ -1,0 +1,6 @@
+{
+  "rows": [
+    { "label": "1", "negative": "453(TN)", "positive": "247(FP)" },
+    { "label": "2", "negative": "0(FN)", "positive": "300(TP)" }
+  ]
+}

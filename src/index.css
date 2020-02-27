@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.ant-table-content .ant-table-body .ant-table-thead > tr > th {
+  background: rgb(32, 56, 100);
+  color: #fff;
+  border: 1px solid #fff;
+}
+.ant-layout-sider-children .logo .ant-menu-dark {
+  background: rgb(32, 56, 100);
+}
+.ant-col .ant-card-small .ant-card-head {
+  border-bottom: 0px;
+  height: 30px;
+}
+.ant-col .nopadding .ant-card-body {
+  padding: 0px;
+}
+.ant-table {
+  display: block;
+
+  @media screen and (max-width: 600px) {
+    &-thead {
+      display: none;
+    }
+
+    &-thead > tr,
+    &-tbody > tr {
+      th,
+      td {
+        &:first-of-type {
+          padding-top: 1rem;
+        }
+
+        &:last-of-type {
+          padding-bottom: 1rem;
+        }
+      }
+
+      > th,
+      > td {
+        display: block;
+        width: auto !important;
+        border: none;
+        padding: 0 1rem;
+        font-size: 1.1rem;
+
+        &:last-child {
+          border-bottom: 1px solid #eee;
+        }
+      }
+    }
+  }
+}
+
+.ant-table-tbody .Hello--hide-expand > td {
+  border-bottom: 0px;
+}
+.Hello--hide-expand .ant-table-row-expand-icon {
+  display: none;
+}
+
+.cardPadding .ant-card-body {
+  padding: 5px 0;
+}
