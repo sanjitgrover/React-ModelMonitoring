@@ -59,12 +59,12 @@ class Monitoring extends Component {
   }
 
   setDiscriminationData = data => {
-    console.log("data", data);
+    //console.log("data", data);
     const disData = data.discrimination.map(item => {
       if (item.metric === "FI Score") {
         return {
           ...item,
-          expandRow: <ConfusionRecall apiData={this.state.apiData} />
+          expandRow: <ConfusionRecall apiData={data} />
         };
       } else if (item.metric === "KS Statistic") {
         return {
@@ -82,7 +82,9 @@ class Monitoring extends Component {
               <Col span={14}>
                 <Card
                   className="ant-card-small nopadding"
-                  title={<span style={{ fontSize: "20px" }}>KS Chart</span>}
+                  title={
+                    <span style={{ fontSize: "20px" }}>KS Chart Table</span>
+                  }
                 ></Card>
               </Col>
               <Col span={7}></Col>
@@ -95,7 +97,6 @@ class Monitoring extends Component {
     });
     data.discrimination = disData;
     this.setState({ apiData: data });
-    console.log("disData", data);
   };
 
   handleOnChange = (val, data) => {

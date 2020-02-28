@@ -23,27 +23,18 @@ export default class Confusion extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log("confusionMatrix", props);
+    //console.log("confusionMatrix", props);
+    //console.log("confusion", props.apiData.ConfusionMatrix[0]);
 
     this.state = {
       precisionRecall: [
         {
           name: "Precision",
-          data: [
-            0.5125523012552301,
-            0.5390539053905391,
-            0.5737704918032787,
-            0.6049382716049382,
-            0.6380208333333334,
-            0.6721536351165981,
-            0.7,
-            0.7,
-            0.7
-          ]
+          data: props.apiData.PrecisionRecall[0].Precision
         },
         {
           name: "Recall",
-          data: [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.629, 0.407, 0.196]
+          data: props.apiData.PrecisionRecall[0].Recall
         }
       ],
 
@@ -82,17 +73,7 @@ export default class Confusion extends React.Component {
           size: 0
         },
         xaxis: {
-          categories: [
-            "90.9",
-            "180.8",
-            "270.70000000000005",
-            "360.6",
-            "450.5",
-            "540.4000000000001",
-            "630.3000000000001",
-            "720.2",
-            "810.1"
-          ],
+          categories: props.apiData.PrecisionRecall[0].Bin,
           title: {
             //text: "Cumulative Population Deciles"
           },
@@ -106,18 +87,28 @@ export default class Confusion extends React.Component {
           title: {
             //text: "Cumulative Events"
           },
+          min: 0,
+          max: 1,
           labels: {
-            offsetX: 1,
-            offsetY: 1,
-            formatter: value => {
+            //offsetX: 1,
+            //offsetY: 1,
+            /*formatter: value => {
               return value;
-            }
+            }*/
           }
         }
       },
       confusion: [
-        { label: "1", negative: "453(TN)", positive: "247(FP)" },
-        { label: "2", negative: "0(FN)", positive: "300(TP)" }
+        {
+          label: props.apiData.ConfusionMatrix[0][0].label,
+          negative: props.apiData.ConfusionMatrix[0][0].negative,
+          positive: props.apiData.ConfusionMatrix[0][0].positive
+        },
+        {
+          label: props.apiData.ConfusionMatrix[0][1].label,
+          negative: props.apiData.ConfusionMatrix[0][1].negative,
+          positive: props.apiData.ConfusionMatrix[0][1].positive
+        }
       ]
     };
   }
@@ -148,8 +139,8 @@ export default class Confusion extends React.Component {
                   <td></td>
                   <td></td>
 
-                  <td style={labelth}>1</td>
-                  <td style={labelth}>2</td>
+                  <td style={labelth}>{this.state.confusion[0].label}</td>
+                  <td style={labelth}>{this.state.confusion[1].label}</td>
                 </tr>
                 <tr>
                   <td
@@ -164,14 +155,14 @@ export default class Confusion extends React.Component {
                   >
                     Actual
                   </td>
-                  <td style={labelth}>1</td>
-                  <td style={valuetd}>453(TN)</td>
-                  <td style={valuetd}>247(FP)</td>
+                  <td style={labelth}>{this.state.confusion[0].label}</td>
+                  <td style={valuetd}>{this.state.confusion[0].negative}</td>
+                  <td style={valuetd}>{this.state.confusion[0].positive}</td>
                 </tr>
                 <tr>
-                  <td style={labelth}>2</td>
-                  <td style={valuetd2}>0(FN)</td>
-                  <td style={valuetd2}>300(TP)</td>
+                  <td style={labelth}>{this.state.confusion[1].label}</td>
+                  <td style={valuetd2}>{this.state.confusion[1].negative}</td>
+                  <td style={valuetd2}>{this.state.confusion[1].positive}</td>
                 </tr>
               </tbody>
             </table>
