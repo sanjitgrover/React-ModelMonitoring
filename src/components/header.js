@@ -14,7 +14,7 @@ const Head = () => {
               style={{
                 border: "1px solid rgb(235, 237, 240)"
               }}
-              title=<span style={{ fontSize: "28px" }}>{pageTitle}</span>
+              title={<span style={{ fontSize: "28px" }}>{pageTitle}</span>}
             />
           </Header>
         );
