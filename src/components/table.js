@@ -23,8 +23,14 @@ export default class TableData extends React.Component {
           <Card title={this.state.title}>
             <Row>
               <Table
-                className="Hello"
-                rowClassName={this._getRowClassName}
+                className={
+                  this.props.className ? this.props.className : "Hello"
+                }
+                rowClassName={
+                  this.props.rowClassName
+                    ? this.props.rowClassName
+                    : this._getRowClassName
+                }
                 columns={this.props.column}
                 dataSource={this.props.dataSource}
                 pagination={this.state.pagination}

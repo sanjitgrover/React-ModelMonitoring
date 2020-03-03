@@ -203,7 +203,9 @@ const MonitoringFilter = props => {
                 </InputGroup>
 
                 <InputGroup style={inputGroupR} compact>
-                  <label style={inputLabelWidth}>Data Monitoring</label>
+                  <label style={inputLabelWidth}>
+                    Characteristic Stability
+                  </label>
                   <div style={pdL50}>{getAvatar(props.state.monitoring)}</div>
                 </InputGroup>
               </Card>

@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 import { Layout } from "antd";
 import { Row, Col, Card, Collapse, Icon } from "antd";
-import Axios from "axios";
 
+import Http from "../services/httpService";
+import Config from "../config.json";
 import Discrimination from "../components/discrimination";
 import MonitoringFilter from "../components/monitoringFilter";
 import Stability from "../components/stability";
 import DataMonitoring from "../components/dataMonitoring";
 import ConfusionRecall from "../pages/monitoring/confusion";
-import KsChart from "../components/ksChart";
+import KsChartTbl from "../pages/monitoring/ksChartTbl";
+import GiniChartTbl from "../pages/monitoring/giniChartTbl";
+import RankOrdering from "../pages/monitoring/rankOrdering";
+import Auc from "../pages/monitoring/auc";
 
 const { Panel } = Collapse;
 const { Content } = Layout;
@@ -37,59 +41,37 @@ class Monitoring extends Component {
       rank: "red",
       population: "green",
       monitoring: "red",
-      apiData: [],
-      series: [
-        {
-          name: "Event",
-          data: [0, 20, 39, 56, 70, 80, 88, 94, 97, 99, 100]
-        },
-        {
-          name: "Non-event",
-          data: [0, 0, 2, 6, 13, 23, 35, 48, 64, 81, 100]
-        }
-      ]
+      apiData: []
     };
   }
 
   async componentDidMount() {
-    const url = "/Final.json";
-    const { data: records } = await Axios.get(url);
-    //this.setState({ apiData: records });
+    const { data: records } = await Http.get(Config.modelDetail);
     this.setDiscriminationData(records);
   }
 
   setDiscriminationData = data => {
     //console.log("data", data);
-    const disData = data.discrimination.map(item => {
-      if (item.metric === "FI Score") {
+    const disData = data.Discrimination_Table[0].map(item => {
+      if (item.Metric === "F1 Score") {
         return {
           ...item,
           expandRow: <ConfusionRecall apiData={data} />
         };
-      } else if (item.metric === "KS Statistic") {
+      } else if (item.Metric === "KS Statistic") {
         return {
           ...item,
-          expandRow: (
-            <Row>
-              <Col span={10}>
-                <Card
-                  className="ant-card-small nopadding"
-                  title={<span style={{ fontSize: "20px" }}>KS Chart</span>}
-                >
-                  <KsChart series={this.state.series} />
-                </Card>
-              </Col>
-              <Col span={14}>
-                <Card
-                  className="ant-card-small nopadding"
-                  title={
-                    <span style={{ fontSize: "20px" }}>KS Chart Table</span>
-                  }
-                ></Card>
-              </Col>
-              <Col span={7}></Col>
-            </Row>
-          )
+          expandRow: <KsChartTbl apiData={data} />
+        };
+      } else if (item.Metric === "AUC") {
+        return {
+          ...item,
+          expandRow: <Auc apiData={data} />
+        };
+      } else if (item.Metric === "Gini Score") {
+        return {
+          ...item,
+          expandRow: <GiniChartTbl apiData={data} />
         };
       } else {
         return item;
@@ -132,10 +114,8 @@ class Monitoring extends Component {
             >
               <div>
                 <p>
-                  The quick brown fox jumps over the lazy dog. The quick brown
-                  fox jumps over the lazy dog. The quick brown fox jumps over
-                  the lazy dog. The quick brown fox jumps over the lazy dog. The
-                  quick brown fox jumps over the lazy dog.
+                  Risk Scorecard to identify customers at high default risk for
+                  personales customer base
                 </p>
               </div>
             </Card>
@@ -144,55 +124,56 @@ class Monitoring extends Component {
 
         <Row>
           <Col>
-            <Card>
-              <Collapse
-                accordion
-                onChange={callback}
-                expandIconPosition="right"
-                expandIcon={({ isActive }) => (
-                  <Icon
-                    type="caret-right"
-                    rotate={isActive ? 90 : 0}
-                    style={{ color: "#fff" }}
-                  />
-                )}
+            <Collapse
+              bordered={false}
+              accordion
+              onChange={callback}
+              expandIconPosition="right"
+              expandIcon={({ isActive }) => (
+                <Icon
+                  type="caret-right"
+                  rotate={isActive ? 90 : 0}
+                  style={{ color: "#fff" }}
+                />
+              )}
+            >
+              <Panel
+                header={<span style={panelHeading}>Model Discrimination</span>}
+                key="1"
+                style={panelHeader}
+                className="panelTextPd"
               >
-                <Panel
-                  header={
-                    <span style={panelHeading}>Model Discrimination</span>
-                  }
-                  key="1"
-                  style={panelHeader}
-                >
-                  <Discrimination apiData={this.state.apiData} />
-                </Panel>
+                <Discrimination apiData={this.state.apiData} />
+              </Panel>
 
-                <Panel
-                  header={<span style={panelHeading}>Rank Ordering</span>}
-                  key="2"
-                  style={panelHeader}
-                >
-                  <div>'Chart'</div>
-                </Panel>
+              <Panel
+                header={<span style={panelHeading}>Rank Ordering</span>}
+                key="2"
+                style={panelHeader}
+                className="panelTextPd"
+              >
+                <RankOrdering apiData={this.state.apiData} />
+              </Panel>
 
-                <Panel
-                  header={
-                    <span style={panelHeading}>Population Stability</span>
-                  }
-                  key="3"
-                  style={panelHeader}
-                >
-                  <Stability />
-                </Panel>
-                <Panel
-                  header={<span style={panelHeading}>Data Monitoring</span>}
-                  key="4"
-                  style={panelHeader}
-                >
-                  <DataMonitoring />
-                </Panel>
-              </Collapse>
-            </Card>
+              <Panel
+                header={<span style={panelHeading}>Population Stability</span>}
+                key="3"
+                style={panelHeader}
+                className="panelTextPd"
+              >
+                <Stability />
+              </Panel>
+              <Panel
+                header={
+                  <span style={panelHeading}>Characteristic Stability</span>
+                }
+                key="4"
+                style={panelHeader}
+                className="panelTextPd"
+              >
+                <DataMonitoring />
+              </Panel>
+            </Collapse>
           </Col>
         </Row>
       </Content>

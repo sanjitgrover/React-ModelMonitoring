@@ -1,56 +1,63 @@
 import React from "react";
-import { Row, Col } from "antd";
+import { Avatar } from "antd";
 
 import TableData from "../components/table";
-
-const pd5 = {
-  padding: "5px"
-};
 
 const columns = [
   {
     title: "Metric",
-    dataIndex: "metric",
-    key: "metric"
+    dataIndex: "Metric",
+    key: "Metric"
   },
   {
     title: "Development",
-    dataIndex: "development",
-    key: "development"
+    dataIndex: "Development",
+    key: "Development"
   },
   {
     title: "Validation",
-    dataIndex: "validaion",
-    key: "validaion"
+    dataIndex: "Validation",
+    key: "Validation"
   },
   {
     title: "%Change",
-    key: "change",
-    dataIndex: "change"
+    key: "Change",
+    dataIndex: "Change"
   },
   {
     title: "Benchmark",
-    key: "benchmark",
-    dataIndex: "benchmark"
+    key: "Benchmark",
+    dataIndex: "Benchmark"
   },
   {
     title: "Risk",
-    key: "risk",
-    dataIndex: "risk"
+    key: "Risk",
+    dataIndex: "Risk",
+    render: text => {
+      return {
+        children: (
+          <Avatar
+            style={{
+              backgroundColor: text,
+              verticalAlign: "middle",
+              display: "block"
+            }}
+            size="small"
+          />
+        )
+      };
+    }
   }
 ];
 
 const Discrimination = props => {
   return (
-    <Row>
-      <Col style={pd5}>
-        <TableData
-          column={columns}
-          dataSource={props.apiData.discrimination}
-          expand={true}
-        />
-      </Col>
-    </Row>
+    <TableData
+      bordered={false}
+      column={columns}
+      dataSource={props.apiData.discrimination}
+      expand={true}
+    />
   );
 };
 

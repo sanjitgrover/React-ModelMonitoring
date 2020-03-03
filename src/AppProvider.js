@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import Axios from "axios";
+
+import Http from "./services/httpService";
+import Config from "./config.json";
 
 export const AppContext = React.createContext();
 
@@ -20,19 +22,9 @@ export default class AppProvider extends Component {
     };
   }
 
-  getModels = async () => {
-    const { data: models } = await Axios({
-      method: "get",
-      url: "/data.json"
-    });
-    this.setState({ data: models, enterpriseData: models, invModels: models });
-  };
-
   async componentDidMount() {
-    this.getModels();
-    //const url = "/data.json"; //"https://jsonplaceholder.typicode.com/posts"; //
-    //const {data:records} = await Axios.get(url);
-    //this.setState({ data: records });
+    const { data: models } = await Http.get(Config.listModels);
+    this.setState({ data: models, enterpriseData: models, invModels: models });
   }
 
   setPageTitle = title => {

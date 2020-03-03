@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Card } from "antd";
 
-import ReactApexChart from "react-apexcharts";
+import KsChart from "../../components/ksChart";
 
 const labelth = {
     textAlign: "center",
@@ -27,7 +27,7 @@ export default class Confusion extends React.Component {
     //console.log("confusion", props.apiData.ConfusionMatrix[0]);
 
     this.state = {
-      precisionRecall: [
+      series: [
         {
           name: "Precision",
           data: props.apiData.PrecisionRecall[0].Precision
@@ -37,41 +37,7 @@ export default class Confusion extends React.Component {
           data: props.apiData.PrecisionRecall[0].Recall
         }
       ],
-
       options: {
-        chart: {
-          height: 300,
-          type: "line",
-          dropShadow: {
-            enabled: false,
-            color: "#000",
-            top: 18,
-            left: 7,
-            blur: 10,
-            opacity: 0.2
-          },
-          toolbar: {
-            show: false
-          }
-        },
-        colors: ["#77B6EA", "#0d47a1"],
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: "straight",
-          width: 2
-        },
-        grid: {
-          borderColor: "#e7e7e7",
-          row: {
-            colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-            opacity: 0.5
-          }
-        },
-        markers: {
-          size: 0
-        },
         xaxis: {
           categories: props.apiData.PrecisionRecall[0].Bin,
           title: {
@@ -88,14 +54,7 @@ export default class Confusion extends React.Component {
             //text: "Cumulative Events"
           },
           min: 0,
-          max: 1,
-          labels: {
-            //offsetX: 1,
-            //offsetY: 1,
-            /*formatter: value => {
-              return value;
-            }*/
-          }
+          max: 1
         }
       },
       confusion: [
@@ -168,20 +127,14 @@ export default class Confusion extends React.Component {
             </table>
           </Card>
         </Col>
-        <Col span={14}>
+        <Col span={14} className="pdLeft">
           <Card
             className="ant-card-small nopadding"
             title={
               <span style={{ fontSize: "20px" }}>Precision vs Recall</span>
             }
           >
-            <ReactApexChart
-              options={this.state.options}
-              series={this.state.precisionRecall}
-              type="line"
-              height={270}
-              style={{ paddingLeft: "10px" }}
-            />
+            <KsChart series={this.state.series} options={this.state.options} />
           </Card>
         </Col>
       </Row>

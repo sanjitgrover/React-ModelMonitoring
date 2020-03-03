@@ -73,3 +73,13 @@ code {
 .cardPadding .ant-card-body {
   padding: 5px 0;
 }
+
+.panelTextPd .ant-collapse-content > .ant-collapse-content-box {
+  padding: 5px;
+}
+.ant-table-body .ant-table-tbody .rowSubTable td {
+  padding: 4px 16px;
+}
+.ant-row .pdLeft {
+  padding-left: 10px;
+}
