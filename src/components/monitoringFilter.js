@@ -16,13 +16,13 @@ const inputGroup = {
     fontWeight: "bold",
     textAlign: "center",
     height: "32px",
-    padding: "4px 11px"
+    padding: "4px 8px"
   },
   select = {
     width: "55%"
   },
   pdL50 = {
-    paddingLeft: "50px"
+    paddingLeft: "13%" //"50px"
   },
   inputLabelWidth = {
     width: "50%",
@@ -30,8 +30,8 @@ const inputGroup = {
     color: "#fff",
     fontWeight: "bold",
     textAlign: "center",
-    height: "32px",
-    padding: "4px 11px"
+    /*height: "32px",*/
+    padding: "4px 8px"
   },
   inputGroupR = {
     padding: "1px 5px",
@@ -97,7 +97,7 @@ const MonitoringFilter = props => {
                       {data.map(el => {
                         return (
                           <Option key={el.key} value={el.key}>
-                            {el.id}
+                            {el.Id}
                           </Option>
                         );
                       })}
@@ -114,7 +114,7 @@ const MonitoringFilter = props => {
                       {data.map(el => {
                         return (
                           <Option key={el.key} value={el.key}>
-                            {el.name}
+                            {el.Name}
                           </Option>
                         );
                       })}
@@ -131,7 +131,7 @@ const MonitoringFilter = props => {
                       {data.map(el => {
                         return (
                           <Option key={el.key} value={el.key}>
-                            {el.sponsor}
+                            {el.Business_Sponsor}
                           </Option>
                         );
                       })}
@@ -148,7 +148,7 @@ const MonitoringFilter = props => {
                       {data.map(el => {
                         return (
                           <Option key={el.key} value={el.key}>
-                            {el.developer}
+                            {el.Developer}
                           </Option>
                         );
                       })}
@@ -165,7 +165,7 @@ const MonitoringFilter = props => {
                       {data.map(el => {
                         return (
                           <Option key={el.key} value={el.key}>
-                            {el.validator}
+                            {el.Validator}
                           </Option>
                         );
                       })}

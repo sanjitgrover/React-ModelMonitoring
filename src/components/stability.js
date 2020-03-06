@@ -4,134 +4,10 @@ import { Row, Col } from "antd";
 import TableData from "../components/table";
 import BarChart from "../components/barChart";
 
-const columns = [
-  {
-    title: "Score Bands",
-    dataIndex: "score",
-    key: "score"
-  },
-  {
-    title: "Actual %",
-    dataIndex: "actual",
-    key: "actual"
-  },
-  {
-    title: "Expected %",
-    dataIndex: "expected",
-    key: "expected"
-  },
-  {
-    title: "Actual - Expected",
-    key: "actsubexp",
-    dataIndex: "actsubexp"
-  },
-  {
-    title: "In(Actual/Expected)",
-    key: "actdivexp",
-    dataIndex: "actdivexp"
-  },
-  {
-    title: "Index",
-    key: "index",
-    dataIndex: "index"
-  }
-];
-const dataSource = [
-  {
-    key: "1",
-    score: "< 251",
-    actual: "5%",
-    expected: "8%",
-    actsubexp: "-3%",
-    actdivexp: "-0.47",
-    index: "0.014"
-  },
-  {
-    key: "2",
-    score: "251-290",
-    actual: "6%",
-    expected: "9%",
-    actsubexp: "-3%",
-    actdivexp: "-0.41",
-    index: "0.012"
-  },
-  {
-    key: "3",
-    score: "291-320",
-    actual: "6%",
-    expected: "10%",
-    actsubexp: "-4%",
-    actdivexp: "-0.51",
-    index: "0.02"
-  },
-  {
-    key: "4",
-    score: "321-350",
-    actual: "8%",
-    expected: "13%",
-    actsubexp: "-5%",
-    actdivexp: "-0.49",
-    index: "0.01"
-  },
-  {
-    key: "5",
-    score: "351-380",
-    actual: "10%",
-    expected: "12%",
-    actsubexp: "-2%",
-    actdivexp: "-0.18",
-    index: "0.004"
-  },
-  {
-    key: "6",
-    score: "381-410",
-    actual: "12%",
-    expected: "11%",
-    actsubexp: "1%",
-    actdivexp: "-0.09",
-    index: "0.001"
-  },
-  {
-    key: "7",
-    score: "411-440",
-    actual: "14%",
-    expected: "10%",
-    actsubexp: "-4%",
-    actdivexp: "-0.34",
-    index: "0.013"
-  },
-  {
-    key: "8",
-    score: "441-470",
-    actual: "14%",
-    expected: "9%",
-    actsubexp: "5%",
-    actdivexp: "0.44",
-    index: "0.012"
-  },
-  {
-    key: "9",
-    score: "471-520",
-    actual: "13%",
-    expected: "9%",
-    actsubexp: "4%",
-    actdivexp: "0.37",
-    index: "0.005"
-  },
-  {
-    key: "10",
-    score: "> 520",
-    actual: "9%",
-    expected: "8%",
-    actsubexp: "1%",
-    actdivexp: "0.12",
-    index: "0.001"
-  }
-];
-
 class Stability extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    //console.log("Stability", props.apiData.PSI[0]);
 
     this.state = {
       threshold: (
@@ -154,77 +30,19 @@ class Stability extends Component {
       series: [
         {
           name: "Actual",
-          data: [9, 13, 14, 14, 12, 10, 8, 6, 6, 5]
+          data: props.apiData.PSI[0].Actual
         },
         {
-          name: "Ideal",
-          data: [-8, -9, -9, -10, -11, -12, -13, -10, -9, -8]
+          name: "Expected",
+          data: props.apiData.PSI[0].Expected
         }
       ],
       options: {
-        chart: {
-          type: "bar",
-          height: 440,
-          stacked: true
-        },
-        colors: ["#008FFB", "#FF4560"],
-        plotOptions: {
-          bar: {
-            horizontal: true,
-            barHeight: "80%"
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          width: 1,
-          colors: ["#fff"]
-        },
-
-        grid: {
-          xaxis: {
-            lines: {
-              show: false
-            }
-          }
-        },
-        yaxis: {
-          min: -15,
-          max: 15,
-          title: {
-            text: "Score Range"
-          }
-        },
-        tooltip: {
-          shared: false,
-          x: {
-            formatter: function(val) {
-              return val;
-            }
-          },
-          y: {
-            formatter: function(val) {
-              return Math.abs(val) + "%";
-            }
-          }
-        },
         title: {
           text: "Distribution of Population"
         },
         xaxis: {
-          categories: [
-            ">520",
-            "471-520",
-            "441-470",
-            "411-440",
-            "381-410",
-            "351-380",
-            "321-350",
-            "291-320",
-            "251-290",
-            "<251"
-          ],
+          categories: props.apiData.PSI[0].Score_Decile,
           title: {
             text: "Population Distribution"
           },
@@ -233,9 +51,21 @@ class Stability extends Component {
               return Math.abs(Math.round(val)) + "%";
             }
           }
+        },
+        yaxis: {
+          title: {
+            text: "Score Range"
+          }
         }
-      }
+      },
+      dataSource: props.apiData.PSIData[0]
     };
+  }
+
+  calculatePsi(records) {
+    return records.reduce(function(acc, record) {
+      return acc + record.Index;
+    }, 0);
   }
 
   render() {
@@ -243,20 +73,29 @@ class Stability extends Component {
       <div style={{ background: "#fff" }}>
         <Row>
           <Col>
-            <TableData column={columns} dataSource={dataSource} />
+            <TableData
+              rowClassName="rowSubTable"
+              dataSource={this.state.dataSource}
+            />
           </Col>
         </Row>
-        <Row
-          style={{ padding: "5px", background: "#73b504", textAlign: "center" }}
-        >
-          <Col>
-            <div>Population Stability Index = 0.0929</div>
+        <Row style={{ margin: "0 0 20px" }}>
+          <Col
+            style={{
+              padding: "5px",
+              background: "#73b504",
+              textAlign: "center"
+            }}
+          >
+            <div>
+              Population Stability Index ={" "}
+              {this.calculatePsi(this.state.dataSource)}
+            </div>
           </Col>
         </Row>
 
-        <Row style={{ padding: "5px" }}>
-          <Col span={1}></Col>
-          <Col span={13}>
+        <Row>
+          <Col span={14}>
             <div>
               <BarChart
                 series={this.state.series}

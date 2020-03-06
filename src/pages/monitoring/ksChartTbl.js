@@ -22,22 +22,27 @@ export default class KsChartTbl extends Component {
       ],
       options: {
         xaxis: {
-          categories: props.apiData.KSCurve[0].cutoff
+          categories: props.apiData.KSCurve[0].Score_Decile,
+          min: 0
+        },
+        yaxis: {
+          min: 0,
+          max: 100
         }
       },
       dataSource: props.apiData.KSCurveData[0]
     };
   }
 
-  tableColumn(record) {
-    const columns = [];
-    Object.keys(record).map(column => {
-      if (column !== "key") {
-        columns.push({ title: column, dataIndex: column, key: column });
-      }
-    });
-    return columns;
-  }
+  // tableColumn(record) {
+  //   const columns = [];
+  //   Object.keys(record).map(column => {
+  //     if (column !== "key") {
+  //       columns.push({ title: column, dataIndex: column, key: column });
+  //     }
+  //   });
+  //   return columns;
+  // }
 
   render() {
     return (
@@ -55,16 +60,11 @@ export default class KsChartTbl extends Component {
           </Card>
         </Col>
         <Col span={12} className="pdLeft">
-          <Card
-            className="ant-card-small nopadding"
-            title={<span style={{ fontSize: "20px" }}>KS Chart Table</span>}
-          >
-            <TableData
-              rowClassName="rowSubTable"
-              column={this.tableColumn(this.state.dataSource[0])}
-              dataSource={this.state.dataSource}
-            />
-          </Card>
+          <TableData
+            rowClassName="rowSubTable"
+            //column={this.tableColumn(this.state.dataSource[0])}
+            dataSource={this.state.dataSource}
+          />
         </Col>
       </Row>
     );

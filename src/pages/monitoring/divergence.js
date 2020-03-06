@@ -12,31 +12,31 @@ export default class GiniChartTbl extends Component {
     this.state = {
       series: [
         {
-          name: "Model",
-          data: props.apiData.LorenzCurve[0].Cummulative_Event
+          name: "Goods",
+          data: props.apiData.DivergenceCurve[0].Goods
         },
         {
-          name: "Random",
-          data: props.apiData.LorenzCurve[0].Cummulative_Total
+          name: "Bads",
+          data: props.apiData.DivergenceCurve[0].Bads
         }
       ],
       options: {
         xaxis: {
-          categories: props.apiData.LorenzCurve[0].Cummulative_Total,
+          categories: props.apiData.DivergenceCurve[0].Score,
           title: {
-            text: "Cumulative % Population"
+            //text: "Cumulative % Population"
           },
           min: 0
         },
         yaxis: {
           title: {
-            text: "Cumulative % Events"
+            //text: "Cumulative % Events"
           },
-          min: 0,
-          max: 100
+          min: 0
+          //max: 100
         }
       },
-      dataSource: props.apiData.LorenzCurveData[0]
+      dataSource: props.apiData.DivergenceData[0]
     };
   }
 
@@ -46,7 +46,7 @@ export default class GiniChartTbl extends Component {
         <Col span={12}>
           <Card
             className="ant-card-small nopadding"
-            title={<span style={{ fontSize: "20px" }}>Lorenz Curve Chart</span>}
+            title={<span style={{ fontSize: "20px" }}>Divergence Chart</span>}
           >
             <KsChart
               series={this.state.series}

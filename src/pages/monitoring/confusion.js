@@ -39,7 +39,7 @@ export default class Confusion extends React.Component {
       ],
       options: {
         xaxis: {
-          categories: props.apiData.PrecisionRecall[0].Bin,
+          categories: props.apiData.PrecisionRecall[0].Score_Threshold,
           title: {
             //text: "Cumulative Population Deciles"
           },

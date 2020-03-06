@@ -54,7 +54,7 @@ const Discrimination = props => {
   return (
     <TableData
       bordered={false}
-      column={columns}
+      //column={columns}
       dataSource={props.apiData.discrimination}
       expand={true}
     />

@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { Row, Col, Table, Card } from "antd";
+import { Row, Col, Table, Card, Avatar } from "antd";
 
 export default class TableData extends React.Component {
   constructor(props) {
@@ -14,6 +14,43 @@ export default class TableData extends React.Component {
 
   _getRowClassName = record => {
     return _.get(record, "expandRow", 0) === 0 ? "Hello--hide-expand" : "";
+  };
+
+  // call this function if Table header is not passed
+  tableHeader = record => {
+    let headers = Object.keys(record);
+    return headers
+      .filter(header => {
+        return header !== "key";
+      })
+      .map(header => {
+        if (header === "Status" || header === "Risk") {
+          return {
+            title: header,
+            dataIndex: header,
+            key: header,
+            render: text => {
+              return {
+                children: (
+                  <Avatar
+                    style={{
+                      backgroundColor: text,
+                      verticalAlign: "middle",
+                      display: "block"
+                    }}
+                    size="small"
+                  />
+                )
+              };
+            }
+          };
+        }
+        return {
+          title: header,
+          dataIndex: header,
+          key: header
+        };
+      });
   };
 
   render() {
@@ -31,7 +68,11 @@ export default class TableData extends React.Component {
                     ? this.props.rowClassName
                     : this._getRowClassName
                 }
-                columns={this.props.column}
+                columns={
+                  this.props.column
+                    ? this.props.column
+                    : this.tableHeader(this.props.dataSource[0])
+                }
                 dataSource={this.props.dataSource}
                 pagination={this.state.pagination}
                 expandedRowRender={
@@ -41,6 +82,9 @@ export default class TableData extends React.Component {
                       )
                     : false
                 }
+                setModelSelected={this.props.setModelSelected}
+
+                //scroll={{ x: "max-content" }}
               />
             </Row>
           </Card>

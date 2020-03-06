@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Layout } from "antd";
 import { Row, Col, Card, Collapse, Icon } from "antd";
+import { AppContext } from "../AppProvider";
 
 import Http from "../services/httpService";
 import Config from "../config.json";
@@ -12,6 +13,7 @@ import ConfusionRecall from "../pages/monitoring/confusion";
 import KsChartTbl from "../pages/monitoring/ksChartTbl";
 import GiniChartTbl from "../pages/monitoring/giniChartTbl";
 import RankOrdering from "../pages/monitoring/rankOrdering";
+import Divergence from "../pages/monitoring/divergence";
 import Auc from "../pages/monitoring/auc";
 
 const { Panel } = Collapse;
@@ -32,7 +34,7 @@ class Monitoring extends Component {
   constructor(props) {
     super(props);
     const { match } = props;
-    const defaultSelected = match.params.id ? match.params.id : "1";
+    const defaultSelected = match.params.id ? match.params.id : "6";
 
     this.state = {
       selected: defaultSelected,
@@ -51,7 +53,7 @@ class Monitoring extends Component {
   }
 
   setDiscriminationData = data => {
-    //console.log("data", data);
+    //console.log("setDiscriminationData", data);
     const disData = data.Discrimination_Table[0].map(item => {
       if (item.Metric === "F1 Score") {
         return {
@@ -73,6 +75,11 @@ class Monitoring extends Component {
           ...item,
           expandRow: <GiniChartTbl apiData={data} />
         };
+      } else if (item.Metric === "Divergence") {
+        return {
+          ...item,
+          expandRow: <Divergence apiData={data} />
+        };
       } else {
         return item;
       }
@@ -83,6 +90,7 @@ class Monitoring extends Component {
 
   handleOnChange = (val, data) => {
     console.log(val);
+    console.log("data", data);
     this.setState({
       selected: val,
       risk: data.filter(function(el) {
@@ -102,81 +110,96 @@ class Monitoring extends Component {
 
   render() {
     return (
-      <Content style={{ padding: "4px 24px", minHeight: 280 }}>
-        <MonitoringFilter onChange={this.handleOnChange} state={this.state} />
+      <AppContext.Consumer>
+        {({ modelSelected, setModelSelected, data }) => {
+          return (
+            <Content style={{ padding: "4px 24px", minHeight: 280 }}>
+              <MonitoringFilter
+                onChange={this.handleOnChange}
+                state={this.state}
+              />
 
-        <Row>
-          <Col>
-            <Card
-              className="ant-card-small"
-              title="MODEL OBJECTIVE"
-              style={{ margin: "5px 0" }}
-            >
-              <div>
-                <p>
-                  Risk Scorecard to identify customers at high default risk for
-                  personales customer base
-                </p>
-              </div>
-            </Card>
-          </Col>
-        </Row>
+              <Row>
+                <Col>
+                  <Card
+                    className="ant-card-small"
+                    title="MODEL OBJECTIVE"
+                    style={{ margin: "5px 0" }}
+                  >
+                    <div>
+                      <p>
+                        Risk Scorecard to identify customers at high default
+                        risk for personales customer base
+                      </p>
+                    </div>
+                  </Card>
+                </Col>
+              </Row>
 
-        <Row>
-          <Col>
-            <Collapse
-              bordered={false}
-              accordion
-              onChange={callback}
-              expandIconPosition="right"
-              expandIcon={({ isActive }) => (
-                <Icon
-                  type="caret-right"
-                  rotate={isActive ? 90 : 0}
-                  style={{ color: "#fff" }}
-                />
-              )}
-            >
-              <Panel
-                header={<span style={panelHeading}>Model Discrimination</span>}
-                key="1"
-                style={panelHeader}
-                className="panelTextPd"
-              >
-                <Discrimination apiData={this.state.apiData} />
-              </Panel>
+              <Row>
+                <Col>
+                  <Collapse
+                    bordered={false}
+                    accordion
+                    onChange={callback}
+                    expandIconPosition="right"
+                    expandIcon={({ isActive }) => (
+                      <Icon
+                        type="caret-right"
+                        rotate={isActive ? 90 : 0}
+                        style={{ color: "#fff" }}
+                      />
+                    )}
+                  >
+                    <Panel
+                      header={
+                        <span style={panelHeading}>Model Discrimination</span>
+                      }
+                      key="1"
+                      style={panelHeader}
+                      className="panelTextPd"
+                    >
+                      <Discrimination apiData={this.state.apiData} />
+                    </Panel>
 
-              <Panel
-                header={<span style={panelHeading}>Rank Ordering</span>}
-                key="2"
-                style={panelHeader}
-                className="panelTextPd"
-              >
-                <RankOrdering apiData={this.state.apiData} />
-              </Panel>
+                    <Panel
+                      header={<span style={panelHeading}>Rank Ordering</span>}
+                      key="2"
+                      style={panelHeader}
+                      className="panelTextPd"
+                    >
+                      <RankOrdering apiData={this.state.apiData} />
+                    </Panel>
 
-              <Panel
-                header={<span style={panelHeading}>Population Stability</span>}
-                key="3"
-                style={panelHeader}
-                className="panelTextPd"
-              >
-                <Stability />
-              </Panel>
-              <Panel
-                header={
-                  <span style={panelHeading}>Characteristic Stability</span>
-                }
-                key="4"
-                style={panelHeader}
-                className="panelTextPd"
-              >
-                <DataMonitoring />
-              </Panel>
-            </Collapse>
-          </Col>
-        </Row>
-      </Content>
+                    <Panel
+                      header={
+                        <span style={panelHeading}>Population Stability</span>
+                      }
+                      key="3"
+                      style={panelHeader}
+                      className="panelTextPd"
+                    >
+                      <Stability apiData={this.state.apiData} />
+                    </Panel>
+                    <Panel
+                      header={
+                        <span style={panelHeading}>
+                          Characteristic Stability
+                        </span>
+                      }
+                      key="4"
+                      style={panelHeader}
+                      className="panelTextPd"
+                    >
+                      <DataMonitoring apiData={this.state.apiData} />
+                    </Panel>
+                  </Collapse>
+                </Col>
+              </Row>
+            </Content>
+          );
+        }}
+      </AppContext.Consumer>
     );
   }
 }

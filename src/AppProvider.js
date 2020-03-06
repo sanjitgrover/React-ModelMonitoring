@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 import Http from "./services/httpService";
 import Config from "./config.json";
@@ -12,13 +14,20 @@ export default class AppProvider extends Component {
       pageTitle: "Model Inventory",
       setPageTitle: this.setPageTitle,
       data: [],
+      modelSelected: "",
+      setModelSelected: this.setModelSelected,
+      enterpriseData: [],
+      invModels: [],
       enterpriseOnChange: this.enterpriseOnChange,
       inventoryOnChange: this.inventoryOnChange,
-      enterpriseData: [],
       enterpriseSelected: "",
-      invModels: [],
       invSelected: "",
-      monitoringSelected: ""
+      monitoringSelected: "",
+      modelDetail: [],
+      comments: [],
+      printDocument: this.printDocument,
+      getModelDetails: this.getModelDetails,
+      modelDetails: []
     };
   }
 
@@ -29,6 +38,13 @@ export default class AppProvider extends Component {
 
   setPageTitle = title => {
     this.setState({ pageTitle: title });
+  };
+
+  // selected one model after click from list inventory page
+  setModelSelected = modelId => {
+    console.log("Appprovider", modelId);
+    this.setState({ modelSelected: modelId });
+    this.getModelDetails(modelId);
   };
 
   enterpriseOnChange = val => {
@@ -55,9 +71,28 @@ export default class AppProvider extends Component {
     });
   };
 
-  // componentDidMount() {
-  //     this.getPageTitle
-  // }
+  // get one model details
+  getModelDetails = async id => {
+    console.log("getModelDetails");
+    const { data: records } = await Http.get(Config.modelDetail);
+    console.log("output", records);
+    this.setState({ modelDetails: records });
+  };
+
+  // print PDF call from Header
+  printDocument = () => {
+    console.log("Generate PDF");
+    const models = this.getModelDetails();
+    console.log("records", models);
+    const input = document.getElementById("divToPrint");
+    // html2canvas(input).then(canvas => {
+    //   const imgData = canvas.toDataURL("image/png");
+    //   const pdf = new jsPDF();
+    //   pdf.addImage(imgData, "JPEG", 0, 0);
+    //   // pdf.output('dataurlnewwindow');
+    //   pdf.save("download.pdf");
+    // });
+  };
 
   render() {
     return (

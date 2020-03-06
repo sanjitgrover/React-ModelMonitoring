@@ -13,38 +13,50 @@ export default class Auc extends Component {
     this.state = {
       series: [
         {
-          name: "False Positive Rate",
+          name: "Model",
           data: props.apiData.ROCCurve[0].TruePositiveRate
+        },
+        {
+          name: "Random",
+          data: props.apiData.ROCCurve[0].FalsePositiveRate
         }
       ],
       options: {
         xaxis: {
-          categories: props.apiData.ROCCurve[0].FalsePositiveRate,
+          categories: props.apiData.ROCCurve[0].Score_Cutoff,
+          min: 0,
+          //max: 1,
+          // labels: {
+          //   formatter: function(value) {
+          //     return value.toFixed(2);
+          //   }
+          // },
           title: {
             text: "False Positive Rate"
-          }
+          },
+          type: "straight"
         },
         yaxis: {
           title: {
             text: "True Positive Rate"
           },
-          min: 0,
-          max: 1
+          min: 0
+          //max: 1
         }
       },
-      dataSource: props.apiData.LorenzCurveData[0]
+      dataSource: props.apiData.ROCData[0]
     };
   }
 
-  tableColumn(record) {
-    const columns = [];
-    Object.keys(record).map(column => {
-      if (column !== "key") {
-        columns.push({ title: column, dataIndex: column, key: column });
-      }
-    });
-    return columns;
-  }
+  // tableColumn(record) {
+  //   const columns = [];
+  //   Object.keys(record).map(column => {
+  //     if (column !== "key") {
+  //       columns.push({ title: column, dataIndex: column, key: column });
+  //     }
+  //   });
+  //   return columns;
+  // }
 
   render() {
     return (
@@ -57,21 +69,20 @@ export default class Auc extends Component {
             <KsChart
               series={this.state.series}
               options={this.state.options}
-              height={350}
+              height={370}
             />
           </Card>
         </Col>
-        <Col span={12} className="pdLeft">
-          <Card
-            className="ant-card-small nopadding"
-            title={<span style={{ fontSize: "20px" }}></span>}
-          >
-            <TableData
-              rowClassName="rowSubTable"
-              column={this.tableColumn(this.state.dataSource[0])}
-              dataSource={this.state.dataSource}
-            />
-          </Card>
+        <Col
+          span={12}
+          className="pdLeft"
+          style={{ overflowY: "scroll", maxHeight: "420px" }}
+        >
+          <TableData
+            rowClassName="rowSubTable"
+            //column={this.tableColumn(this.state.dataSource[0])}
+            dataSource={this.state.dataSource}
+          />
         </Col>
       </Row>
     );

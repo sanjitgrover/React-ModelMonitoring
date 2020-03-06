@@ -22,28 +22,19 @@ class RankOrdering extends Component {
       ],
       options: {
         xaxis: {
-          categories: props.apiData.RankOrdering[0].Bin
+          categories: props.apiData.RankOrdering[0].Score_Decile,
+          min: 0
         },
         yaxis: {
           title: {
             text: "Cumulative Events"
           },
-          min: 0,
-          max: 0.7
+          min: 0
+          //max: 0.7
         }
       },
       dataSource: props.apiData.RankOrderingData[0]
     };
-  }
-
-  tableColumn(record) {
-    const columns = [];
-    Object.keys(record).map(column => {
-      if (column !== "key") {
-        columns.push({ title: column, dataIndex: column, key: column });
-      }
-    });
-    return columns;
   }
 
   render() {
@@ -62,17 +53,12 @@ class RankOrdering extends Component {
           </Card>
         </Col>
         <Col span={12} className="pdLeft">
-          <Card
-            className="ant-card-small nopadding"
-            title={<span style={{ fontSize: "20px" }}></span>}
-          >
-            <TableData
-              class="subTable"
-              rowClassName="rowSubTable"
-              column={this.tableColumn(this.state.dataSource[0])}
-              dataSource={this.state.dataSource}
-            />
-          </Card>
+          <TableData
+            class="subTable"
+            rowClassName="rowSubTable"
+            //column={this.tableColumn(this.state.dataSource[0])}
+            dataSource={this.state.dataSource}
+          />
         </Col>
       </Row>
     );
