@@ -45,6 +45,7 @@ class DataMonitoring extends Component {
               rowClassName="rowSubTable"
               //column={tblHeader}
               dataSource={this.state.dataSource}
+              scroll={true}
             />
           </Col>
           <Col span={1}></Col>

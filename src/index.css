@@ -83,3 +83,22 @@ code {
 .ant-row .pdLeft {
   padding-left: 10px;
 }
+
+.event-data-metric {
+  margin: 4%;
+  color: #fff;
+}
+.event-data-metric .ant-col > div {
+  height: 110px;
+  background: rgb(143, 170, 220);
+  border-radius: 4px;
+  padding: 2%;
+  text-align: center;
+  padding: 10%;
+}
+.event-data-metric .ant-col > div h2 {
+  margin-bottom: 0.1em;
+}
+.highlight {
+  background: rgb(115, 181, 4);
+}

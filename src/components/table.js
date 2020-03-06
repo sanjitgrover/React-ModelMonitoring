@@ -2,6 +2,12 @@ import React from "react";
 import _ from "lodash";
 import { Row, Col, Table, Card, Avatar } from "antd";
 
+const style = {
+  scroll: {
+    overflowY: "scroll",
+    maxHeight: "420px"
+  }
+};
 export default class TableData extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +19,15 @@ export default class TableData extends React.Component {
   }
 
   _getRowClassName = record => {
-    return _.get(record, "expandRow", 0) === 0 ? "Hello--hide-expand" : "";
+    let highlight = "";
+    if (record.Max_pos) {
+      highlight = " highlight";
+    }
+    if (this.props.rowClassName) return this.props.rowClassName + highlight;
+    let hideExpandIcon =
+      _.get(record, "expandRow", 0) === 0 ? "Hello--hide-expand" : "";
+
+    return hideExpandIcon;
   };
 
   // call this function if Table header is not passed
@@ -21,7 +35,7 @@ export default class TableData extends React.Component {
     let headers = Object.keys(record);
     return headers
       .filter(header => {
-        return header !== "key";
+        return header !== "key"; // && header !== "Max_pos"
       })
       .map(header => {
         if (header === "Status" || header === "Risk") {
@@ -56,18 +70,14 @@ export default class TableData extends React.Component {
   render() {
     return (
       <Row>
-        <Col>
+        <Col style={this.props.scroll ? style.scroll : ""}>
           <Card title={this.state.title}>
             <Row>
               <Table
                 className={
                   this.props.className ? this.props.className : "Hello"
                 }
-                rowClassName={
-                  this.props.rowClassName
-                    ? this.props.rowClassName
-                    : this._getRowClassName
-                }
+                rowClassName={this._getRowClassName}
                 columns={
                   this.props.column
                     ? this.props.column

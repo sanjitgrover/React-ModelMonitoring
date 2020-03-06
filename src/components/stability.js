@@ -109,8 +109,8 @@ class Stability extends Component {
               style={{
                 background: "rgb(32, 56, 100)",
                 color: "#fff",
-                fontWeight: "bold",
-                padding: "10px"
+                padding: "10px",
+                marginTop: "65px"
               }}
             >
               {this.state.threshold}

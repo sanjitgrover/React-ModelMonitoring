@@ -13,10 +13,12 @@ export default class GiniChartTbl extends Component {
       series: [
         {
           name: "Goods",
+          type: "area",
           data: props.apiData.DivergenceCurve[0].Goods
         },
         {
           name: "Bads",
+          type: "area",
           data: props.apiData.DivergenceCurve[0].Bads
         }
       ],
@@ -28,13 +30,21 @@ export default class GiniChartTbl extends Component {
           },
           min: 0
         },
-        yaxis: {
-          title: {
-            //text: "Cumulative % Events"
+        yaxis: [
+          {
+            title: {
+              text: "Goods"
+            }
           },
-          min: 0
+          {
+            opposite: true,
+            title: {
+              text: "Bads"
+            }
+          }
+          //(min: 0)
           //max: 100
-        }
+        ]
       },
       dataSource: props.apiData.DivergenceData[0]
     };
@@ -43,23 +53,19 @@ export default class GiniChartTbl extends Component {
   render() {
     return (
       <Row>
-        <Col span={12}>
+        <Col span={14}>
           <Card
             className="ant-card-small nopadding"
             title={<span style={{ fontSize: "20px" }}>Divergence Chart</span>}
           >
-            <KsChart
-              series={this.state.series}
-              options={this.state.options}
-              height={350}
-            />
+            <KsChart series={this.state.series} options={this.state.options} />
           </Card>
         </Col>
-        <Col span={12} className="pdLeft">
+        <Col span={10} className="pdLeft">
           <TableData
             rowClassName="rowSubTable"
-            //column={this.tableColumn(this.state.dataSource[0])}
             dataSource={this.state.dataSource}
+            scroll={true}
           />
         </Col>
       </Row>

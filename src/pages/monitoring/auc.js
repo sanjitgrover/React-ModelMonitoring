@@ -8,7 +8,6 @@ export default class Auc extends Component {
   constructor(props) {
     super(props);
     //console.log("ROCCurve", props);
-    console.log("ROCCurve", props.apiData.ROCCurve[0]);
 
     this.state = {
       series: [
@@ -23,18 +22,17 @@ export default class Auc extends Component {
       ],
       options: {
         xaxis: {
-          categories: props.apiData.ROCCurve[0].Score_Cutoff,
-          min: 0,
-          //max: 1,
-          // labels: {
-          //   formatter: function(value) {
-          //     return value.toFixed(2);
-          //   }
-          // },
+          categories: props.apiData.ROCCurve[0].FalsePositiveRate,
+          labels: {
+            offsetX: 0,
+            offsetY: -5
+          },
           title: {
             text: "False Positive Rate"
           },
-          type: "straight"
+          type: "numeric",
+          min: 0,
+          max: 1
         },
         yaxis: {
           title: {
@@ -48,16 +46,6 @@ export default class Auc extends Component {
     };
   }
 
-  // tableColumn(record) {
-  //   const columns = [];
-  //   Object.keys(record).map(column => {
-  //     if (column !== "key") {
-  //       columns.push({ title: column, dataIndex: column, key: column });
-  //     }
-  //   });
-  //   return columns;
-  // }
-
   render() {
     return (
       <Row>
@@ -66,22 +54,14 @@ export default class Auc extends Component {
             className="ant-card-small nopadding"
             title={<span style={{ fontSize: "20px" }}>ROC Curve</span>}
           >
-            <KsChart
-              series={this.state.series}
-              options={this.state.options}
-              height={370}
-            />
+            <KsChart series={this.state.series} options={this.state.options} />
           </Card>
         </Col>
-        <Col
-          span={12}
-          className="pdLeft"
-          style={{ overflowY: "scroll", maxHeight: "420px" }}
-        >
+        <Col span={12} className="pdLeft">
           <TableData
             rowClassName="rowSubTable"
-            //column={this.tableColumn(this.state.dataSource[0])}
             dataSource={this.state.dataSource}
+            scroll={true}
           />
         </Col>
       </Row>

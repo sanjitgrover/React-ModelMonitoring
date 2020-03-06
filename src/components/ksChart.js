@@ -81,7 +81,7 @@ export default class ApexChart extends React.Component {
           options={this.state.options}
           series={this.props.series}
           type="line"
-          height={this.props.height ? this.props.height : 270}
+          height={this.props.height ? this.props.height : 370}
         />
       </div>
     );

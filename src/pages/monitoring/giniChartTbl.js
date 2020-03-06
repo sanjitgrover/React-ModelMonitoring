@@ -8,7 +8,6 @@ export default class GiniChartTbl extends Component {
   constructor(props) {
     super(props);
     //console.log("KsChart", props);
-    //console.log("LorenzCurve", props.apiData.LorenzCurve[0]);
     this.state = {
       series: [
         {
@@ -48,18 +47,14 @@ export default class GiniChartTbl extends Component {
             className="ant-card-small nopadding"
             title={<span style={{ fontSize: "20px" }}>Lorenz Curve Chart</span>}
           >
-            <KsChart
-              series={this.state.series}
-              options={this.state.options}
-              height={350}
-            />
+            <KsChart series={this.state.series} options={this.state.options} />
           </Card>
         </Col>
         <Col span={12} className="pdLeft">
           <TableData
             rowClassName="rowSubTable"
-            //column={this.tableColumn(this.state.dataSource[0])}
             dataSource={this.state.dataSource}
+            scroll={true}
           />
         </Col>
       </Row>

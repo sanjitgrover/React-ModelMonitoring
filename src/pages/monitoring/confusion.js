@@ -1,8 +1,6 @@
 import React from "react";
 import { Row, Col, Card } from "antd";
 
-import KsChart from "../../components/ksChart";
-
 const labelth = {
     textAlign: "center",
     background: "#f2f2f2"
@@ -23,40 +21,10 @@ export default class Confusion extends React.Component {
   constructor(props) {
     super(props);
 
-    //console.log("confusionMatrix", props);
+    console.log("confusionMatrix1", props.apiData.EventDataMetric[0][0].Metric);
     //console.log("confusion", props.apiData.ConfusionMatrix[0]);
 
     this.state = {
-      series: [
-        {
-          name: "Precision",
-          data: props.apiData.PrecisionRecall[0].Precision
-        },
-        {
-          name: "Recall",
-          data: props.apiData.PrecisionRecall[0].Recall
-        }
-      ],
-      options: {
-        xaxis: {
-          categories: props.apiData.PrecisionRecall[0].Score_Threshold,
-          title: {
-            //text: "Cumulative Population Deciles"
-          },
-          labels: {
-            formatter: value => {
-              return value;
-            }
-          }
-        },
-        yaxis: {
-          title: {
-            //text: "Cumulative Events"
-          },
-          min: 0,
-          max: 1
-        }
-      },
       confusion: [
         {
           label: props.apiData.ConfusionMatrix[0][0].label,
@@ -67,6 +35,24 @@ export default class Confusion extends React.Component {
           label: props.apiData.ConfusionMatrix[0][1].label,
           negative: props.apiData.ConfusionMatrix[0][1].negative,
           positive: props.apiData.ConfusionMatrix[0][1].positive
+        }
+      ],
+      EventDataMetric: [
+        {
+          label: props.apiData.EventDataMetric[0][0].Metric,
+          value: props.apiData.EventDataMetric[0][0].Value
+        },
+        {
+          label: props.apiData.EventDataMetric[0][1].Metric,
+          value: props.apiData.EventDataMetric[0][1].Value
+        },
+        {
+          label: props.apiData.EventDataMetric[0][2].Metric,
+          value: props.apiData.EventDataMetric[0][2].Value
+        },
+        {
+          label: props.apiData.EventDataMetric[0][3].Metric,
+          value: props.apiData.EventDataMetric[0][3].Value
         }
       ]
     };
@@ -130,11 +116,38 @@ export default class Confusion extends React.Component {
         <Col span={14} className="pdLeft">
           <Card
             className="ant-card-small nopadding"
-            title={
-              <span style={{ fontSize: "20px" }}>Precision vs Recall</span>
-            }
+            title={<span style={{ fontSize: "20px" }}>Event Data Metric</span>}
           >
-            <KsChart series={this.state.series} options={this.state.options} />
+            <div className="event-data-metric">
+              <Row gutter={[12, 12]}>
+                <Col key="1" span={12}>
+                  <div>
+                    <h2>{this.state.EventDataMetric[0].label}</h2>
+                    <p>{this.state.EventDataMetric[0].value}</p>
+                  </div>
+                </Col>
+                <Col key="2" span={12}>
+                  <div>
+                    <h2>{this.state.EventDataMetric[1].label}</h2>
+                    <p>{this.state.EventDataMetric[1].value}</p>
+                  </div>
+                </Col>
+              </Row>
+              <Row gutter={[12, 12]}>
+                <Col key="3" span={12}>
+                  <div>
+                    <h2>{this.state.EventDataMetric[2].label}</h2>
+                    <p>{this.state.EventDataMetric[2].value}</p>
+                  </div>
+                </Col>
+                <Col key="4" span={12}>
+                  <div>
+                    <h2>{this.state.EventDataMetric[3].label}</h2>
+                    <p>{this.state.EventDataMetric[3].value}</p>
+                  </div>
+                </Col>
+              </Row>
+            </div>
           </Card>
         </Col>
       </Row>

@@ -48,6 +48,7 @@ class Monitoring extends Component {
   }
 
   async componentDidMount() {
+    console.log();
     const { data: records } = await Http.get(Config.modelDetail);
     this.setDiscriminationData(records);
   }
@@ -111,7 +112,7 @@ class Monitoring extends Component {
   render() {
     return (
       <AppContext.Consumer>
-        {({ modelSelected, setModelSelected, data }) => {
+        {({ modelSelected, setModelSelected, modelDetails }) => {
           return (
             <Content style={{ padding: "4px 24px", minHeight: 280 }}>
               <MonitoringFilter
@@ -128,8 +129,11 @@ class Monitoring extends Component {
                   >
                     <div>
                       <p>
-                        Risk Scorecard to identify customers at high default
-                        risk for personales customer base
+                        Risk Scorecard model developed at customer-level for the
+                        portfolios of individuals and PYMEs (small and
+                        medium-sized enterprises) with 0 days past due on all
+                        credit cards, loans, and mortgage accounts in the month
+                        of scoring.
                       </p>
                     </div>
                   </Card>

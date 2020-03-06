@@ -34,7 +34,7 @@
         "Development": "-",
         "Validation": 0.9,
         "Change": "-",
-        "Benchmark": "",
+        "Benchmark": 0.05,
         "Risk": "Green"
       },
       {
@@ -112,6 +112,11 @@
         "key": 3,
         "Metric": "F1 Score",
         "Value": 0.2
+      },
+      {
+        "key": 4,
+        "Metric": "False Positive Rate",
+        "Value": 0.1
       }
     ]
   ],
@@ -255,70 +260,80 @@
         "Score Decile": 392,
         "Cumulative Event %": "30",
         "Cumulative Non Event %": "9",
-        "KS": 21.81
+        "KS": 21,
+        "Max_pos": 0
       },
       {
         "key": 2,
         "Score Decile": 645,
         "Cumulative Event %": "50",
         "Cumulative Non Event %": "18",
-        "KS": 31.7
+        "KS": 31,
+        "Max_pos": 0
       },
       {
         "key": 3,
         "Score Decile": 675,
         "Cumulative Event %": "65",
         "Cumulative Non Event %": "28",
-        "KS": 36.72
+        "KS": 36,
+        "Max_pos": 0
       },
       {
         "key": 4,
         "Score Decile": 698,
         "Cumulative Event %": "77",
         "Cumulative Non Event %": "38",
-        "KS": 38.48
+        "KS": 38,
+        "Max_pos": 1
       },
       {
         "key": 5,
         "Score Decile": 719,
         "Cumulative Event %": "84",
         "Cumulative Non Event %": "48",
-        "KS": 36.42
+        "KS": 36,
+        "Max_pos": 0
       },
       {
         "key": 6,
         "Score Decile": 735,
         "Cumulative Event %": "90",
         "Cumulative Non Event %": "58",
-        "KS": 32.27
+        "KS": 32,
+        "Max_pos": 0
       },
       {
         "key": 7,
         "Score Decile": 754,
         "Cumulative Event %": "95",
         "Cumulative Non Event %": "69",
-        "KS": 25.83
+        "KS": 25,
+        "Max_pos": 0
       },
       {
         "key": 8,
         "Score Decile": 775,
         "Cumulative Event %": "97",
         "Cumulative Non Event %": "79",
-        "KS": 18.25
+        "KS": 18,
+        "Max_pos": 0
       },
       {
         "key": 9,
         "Score Decile": 799,
         "Cumulative Event %": "99",
         "Cumulative Non Event %": "89",
-        "KS": 9.65
+        "KS": 9,
+        "Max_pos": 0
       },
       {
         "key": 10,
         "Score Decile": 840,
         "Cumulative Event %": "100",
         "Cumulative Non Event %": "100",
-        "KS": 0.0
+        "KS": 0,
+        "Max_pos": 0
       }
     ]
   ],
