@@ -157,7 +157,7 @@ class Monitoring extends Component {
                   >
                     <Panel
                       header={
-                        <span style={panelHeading}>Model Discrimination</span>
+                        <span style={panelHeading}>Model Discriminations</span>
                       }
                       key="1"
                       style={panelHeader}
